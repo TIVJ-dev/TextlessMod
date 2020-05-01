@@ -24,8 +24,8 @@ public class FontRendererTransformer implements ITransformer {
                         FieldInsnNode fieldInsnNode = (FieldInsnNode) node;
                         if (
                                 (fieldInsnNode.owner.equals("net/minecraft/client/gui/FontRenderer") || fieldInsnNode.name.equals("srg")) &&
-                                (fieldInsnNode.name.equals("bidiFlag") || fieldInsnNode.name.equals("srg")) &&
-                                fieldInsnNode.desc.equals("Z")
+                                        (fieldInsnNode.name.equals("bidiFlag") || fieldInsnNode.name.equals("srg")) &&
+                                        fieldInsnNode.desc.equals("Z")
                         ) {
                             methodNode.instructions.insertBefore(node.getPrevious(), textless());
                             return;
@@ -39,8 +39,8 @@ public class FontRendererTransformer implements ITransformer {
     private InsnList textless() {
         InsnList list = new InsnList();
         LabelNode labelNode = new LabelNode();
-        list.add(new VarInsnNode(Opcodes.ALOAD,1));
-        list.add(new FieldInsnNode(Opcodes.GETSTATIC, "io/github/tivj/textless/ToggleCommand","textEnabled","Z"));
+        list.add(new VarInsnNode(Opcodes.ALOAD, 1));
+        list.add(new FieldInsnNode(Opcodes.GETSTATIC, "io/github/tivj/textless/ToggleCommand", "textEnabled", "Z"));
         list.add(new JumpInsnNode(Opcodes.IFEQ, labelNode));
 
         list.add(new InsnNode(Opcodes.ICONST_0));
