@@ -16,15 +16,15 @@ public class FontRendererTransformer implements ITransformer {
     public void transform(ClassNode classNode, String name) {
         for (MethodNode methodNode : classNode.methods) {
             String methodName = mapMethodName(classNode, methodNode);
-            if (methodName.equals("renderString")) {
+            if (methodName.equals("renderString") || methodName.equals("func_180455_b")) {
                 ListIterator<AbstractInsnNode> iterator = methodNode.instructions.iterator();
                 while (iterator.hasNext()) {
                     AbstractInsnNode node = iterator.next();
                     if (node.getOpcode() == Opcodes.GETFIELD) {
                         FieldInsnNode fieldInsnNode = (FieldInsnNode) node;
                         if (
-                                (fieldInsnNode.owner.equals("net/minecraft/client/gui/FontRenderer") || fieldInsnNode.name.equals("srg")) &&
-                                (fieldInsnNode.name.equals("bidiFlag") || fieldInsnNode.name.equals("srg")) &&
+                                fieldInsnNode.owner.equals("net/minecraft/client/gui/FontRenderer") &&
+                                (fieldInsnNode.name.equals("bidiFlag") || fieldInsnNode.name.equals("field_78294_m")) &&
                                 fieldInsnNode.desc.equals("Z")
                         ) {
                             methodNode.instructions.insertBefore(node.getPrevious(), textless());
